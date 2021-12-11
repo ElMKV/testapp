@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+    <changeSet id="1" author="Ilya Makoveev">
+        <createTable tableName="employers">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="employer_id_pk" />
+            </column>
+            <column name="position" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="boss" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="fio" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="companyName" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="tasks">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="task_id_pk" />
+            </column>
+            <column name="priority" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="executor" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addAutoIncrement tableName="employers" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <addAutoIncrement tableName="tasks" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <createSequence sequenceName="hibernate_sequence" incrementBy="1" startValue="1" />
+        <addForeignKeyConstraint baseTableName="tasks" baseColumnNames="executor" constraintName="task_executor_fk"
+                                 referencedTableName="employers" referencedColumnNames="id" />
+    </changeSet>
+</databaseChangeLog>
