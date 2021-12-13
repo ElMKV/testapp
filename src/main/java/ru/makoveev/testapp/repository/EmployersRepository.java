@@ -1,3 +1,4 @@
+
 package ru.makoveev.testapp.repository;
 
 import org.jooq.DSLContext;
@@ -22,12 +23,13 @@ public class EmployersRepository {
     }
 
     public void insertEmployer() {
-         dslContext
-            .insertInto(Tables.EMPLOYERS,
-                    Tables.EMPLOYERS.COMPANYNAME,
-                    Tables.EMPLOYERS.FIO,
-                    Tables.EMPLOYERS.POSITION)
-            .values("check","check", "check")
-            .execute();
+        dslContext
+                .insertInto(Tables.EMPLOYERS,
+                        Tables.EMPLOYERS.COMPANYNAME,
+                        Tables.EMPLOYERS.FIO,
+                        Tables.EMPLOYERS.POSITION)
+                .values("check", "check", "check")
+                .execute();
     }
 }
+

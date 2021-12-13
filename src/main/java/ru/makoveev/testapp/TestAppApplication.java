@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @SpringBootApplication
-public class TestAppApplication implements CommandLineRunner {
+public class TestAppApplication{
 
 	@Autowired
 	private EmployersRepository repository;
@@ -22,12 +22,7 @@ public class TestAppApplication implements CommandLineRunner {
 		SpringApplication.run(TestAppApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) {
-		System.out.println("hello");
-		repository.insertEmployer();
-		System.out.println(repository.getEmployersList().stream().findFirst().get().toString());
-	}
+
 
 
 
