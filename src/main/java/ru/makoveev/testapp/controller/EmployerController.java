@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.makoveev.testapp.model.Employer;
 import ru.makoveev.testapp.service.EmployerService;
 
@@ -38,6 +35,33 @@ public class EmployerController {
         return clients != null &&  !clients.isEmpty()
                 ? new ResponseEntity<>(clients, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/employer/{id}")
+    public ResponseEntity<Employer> read(@PathVariable(name = "id") int id) {
+        final Employer client = employerService.read(id);
+
+        return client != null
+                ? new ResponseEntity<>(client, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping(value = "/employer/{id}")
+    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody Employer employer) {
+        final boolean updated = employerService.update(employer, id);
+
+        return updated
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    @DeleteMapping(value = "/employer/{id}")
+    public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
+        final boolean deleted = employerService.delete(id);
+
+        return deleted
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
 }
