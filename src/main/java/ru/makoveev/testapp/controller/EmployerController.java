@@ -39,10 +39,10 @@ public class EmployerController {
 
     @GetMapping(value = "/employer/{id}")
     public ResponseEntity<Employer> read(@PathVariable(name = "id") int id) {
-        final Employer client = employerService.read(id);
+        final Employer employer = employerService.read(id);
 
-        return client != null
-                ? new ResponseEntity<>(client, HttpStatus.OK)
+        return employer != null
+                ? new ResponseEntity<>(employer, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
