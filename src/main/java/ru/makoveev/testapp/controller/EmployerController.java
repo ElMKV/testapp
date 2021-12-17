@@ -14,12 +14,9 @@ import java.util.List;
 
 @RestController
 public class EmployerController {
-    private final EmployerService employerService;
 
     @Autowired
-    public EmployerController(EmployerService employerService) {
-        this.employerService = employerService;
-    }
+    EmployerService employerService;
 
 
     @PostMapping(value = "/employer")
@@ -28,13 +25,11 @@ public class EmployerController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/employer")
-    public ResponseEntity<List<Employer>> read() {
-        final List<Employer> clients = employerService.readAll();
 
-        return clients != null &&  !clients.isEmpty()
-                ? new ResponseEntity<>(clients, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping(value = "/employer")
+    public  List<Employer> readAll(@RequestBody Employer employer){
+            return this.employerService.readAll(employer);
+
     }
 
     @GetMapping(value = "/employer/{id}")

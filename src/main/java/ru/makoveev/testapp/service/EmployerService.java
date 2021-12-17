@@ -8,18 +8,13 @@ public interface EmployerService {
 
     void create(Employer employer);
 
-    List<Employer> readAll();
+    List<Employer> readAll(Employer employer);
 
     Employer read(int id);
 
     boolean update(Employer employer, int id);
 
     boolean delete(int id);
-
-
-
-
-
 
 
 }

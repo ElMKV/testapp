@@ -16,20 +16,20 @@ public class EmployersRepository {
     @Autowired
     DSLContext dslContext;
 
-    public List<Employer> getEmployersList() {
-        return dslContext
-                .selectFrom(Tables.EMPLOYERS)
-                .fetchInto(Employer.class);
-    }
+//    public List<Employer> getEmployersList() {
+//        return dslContext
+//                .selectFrom(Tables.EMPLOYERS)
+//                .fetchInto(Employer.class);
+//    }
 
-    public void insertEmployer() {
-        dslContext
-                .insertInto(Tables.EMPLOYERS,
-                        Tables.EMPLOYERS.COMPANYNAME,
-                        Tables.EMPLOYERS.FIO,
-                        Tables.EMPLOYERS.POSITION)
-                .values("check", "check", "check")
-                .execute();
-    }
+//    public void insertEmployer() {
+//        dslContext
+//                .insertInto(Tables.EMPLOYERS,
+//                        Tables.EMPLOYERS.COMPANYNAME,
+//                        Tables.EMPLOYERS.FIO,
+//                        Tables.EMPLOYERS.POSITION)
+//                .values()
+//                .execute();
+//    }
 }
 
