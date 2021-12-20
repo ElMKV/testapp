@@ -3,18 +3,21 @@ package ru.makoveev.testapp.service;
 import ru.makoveev.testapp.model.Employer;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployerService {
 
-    void create(Employer employer);
+    Employer addEmployer(Employer employer);
 
-    List<Employer> readAll(Employer employer);
+    List<Employer> readAll();
 
-    Employer read(int id);
+    Optional<Employer> getEmployerById(Long id);
 
-    boolean update(Employer employer, int id);
+    Employer updateEmployer(Employer employer, Long id);
 
-    boolean delete(int id);
+    Employer setEmployersBoss(Long bossId, Long id);
+
+    int deleteEmployer(Long id);
 
 
 }

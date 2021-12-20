@@ -7,3 +7,5 @@ spring:
     show-sql: true
   liquibase:
     change-log: classpath:/dbchangelog.xml
+server:
+  port: 8090

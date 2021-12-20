@@ -9,27 +9,21 @@ import ru.makoveev.testapp.model.Employer;
 import ru.makoveev.testapp.model.Tables;
 
 import java.util.List;
+import java.util.Optional;
 
-@Service
-public class EmployersRepository {
+@Repository
+public interface EmployersRepository {
 
-    @Autowired
-    DSLContext dslContext;
+    Employer add(Employer employer);
 
-//    public List<Employer> getEmployersList() {
-//        return dslContext
-//                .selectFrom(Tables.EMPLOYERS)
-//                .fetchInto(Employer.class);
-//    }
+    List<Employer> readAll();
 
-//    public void insertEmployer() {
-//        dslContext
-//                .insertInto(Tables.EMPLOYERS,
-//                        Tables.EMPLOYERS.COMPANYNAME,
-//                        Tables.EMPLOYERS.FIO,
-//                        Tables.EMPLOYERS.POSITION)
-//                .values()
-//                .execute();
-//    }
+    Optional<Employer> getById(Long id);
+
+    Employer update(Employer employer, Long id);
+
+    Employer setBoss(Long bossId, Long id);
+
+    int delete(Long id);
 }
 

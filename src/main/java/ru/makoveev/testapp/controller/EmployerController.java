@@ -10,6 +10,7 @@ import ru.makoveev.testapp.model.Employer;
 import ru.makoveev.testapp.service.EmployerService;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -20,45 +21,43 @@ public class EmployerController {
 
 
     @PostMapping(value = "/employer")
-    public ResponseEntity<?> create(@RequestBody Employer employer) {
-        employerService.create(employer);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Employer> create(@RequestBody Employer employer) {
+        Employer result = employerService.addEmployer(employer);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
 
     @GetMapping(value = "/employer")
-    public  List<Employer> readAll(@RequestBody Employer employer){
-            return this.employerService.readAll(employer);
-
+    @ResponseBody
+    public List<Employer> readAll(){
+        return this.employerService.readAll();
     }
 
     @GetMapping(value = "/employer/{id}")
-    public ResponseEntity<Employer> read(@PathVariable(name = "id") int id) {
-        final Employer employer = employerService.read(id);
+    public ResponseEntity<Employer> getById(@PathVariable(name = "id") Long id) {
+        final Optional<Employer> employerOptional = employerService.getEmployerById(id);
 
-        return employer != null
-                ? new ResponseEntity<>(employer, HttpStatus.OK)
+        return employerOptional.isPresent()
+                ? new ResponseEntity<>(employerOptional.get(), HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping(value = "/employer/{id}")
-    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody Employer employer) {
-        final boolean updated = employerService.update(employer, id);
+    public ResponseEntity<Employer> update(@PathVariable(name = "id") Long id, @RequestBody Employer employer) {
+        Employer updated = employerService.updateEmployer(employer, id);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
 
-        return updated
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    @PutMapping(value = "/employer/{id}/boss/{bossId}")
+    public ResponseEntity<Employer> update(@PathVariable(name = "id") Long id, @PathVariable(name = "bossId") Long bossId) {
+        Employer updated = employerService.setEmployersBoss(bossId, id);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/employer/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
-        final boolean deleted = employerService.delete(id);
-
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    public ResponseEntity<Integer> delete(@PathVariable(name = "id") Long id) {
+        return new ResponseEntity<>(Integer.valueOf(employerService.deleteEmployer(id)), HttpStatus.OK);
     }
-
 }
 
 
