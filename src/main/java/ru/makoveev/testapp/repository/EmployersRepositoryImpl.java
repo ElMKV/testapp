@@ -25,9 +25,8 @@ public class EmployersRepositoryImpl implements EmployersRepository{
                 dslContext.insertInto(Tables.EMPLOYERS,
                         Tables.EMPLOYERS.COMPANYNAME,
                         Tables.EMPLOYERS.FIO,
-                        Tables.EMPLOYERS.POSITION,
-                        Tables.EMPLOYERS.ID)
-                .values(employer.getCompanyName(),employer.getFio(),employer.getPosition(), employer.getId())
+                        Tables.EMPLOYERS.POSITION)
+                .values(employer.getCompanyName(),employer.getFio(),employer.getPosition())
                 .returning().fetchOne());
     }
 
