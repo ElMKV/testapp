@@ -4,15 +4,21 @@ import ru.makoveev.testapp.model.Employer;
 import ru.makoveev.testapp.model.Task;
 
 import java.util.List;
+import java.util.Optional;
+
 
 public interface TaskService {
-    void create(Task task);
+
+    Task addTask(Task task);
 
     List<Task> readAll();
 
-    Task read(int id);
+    Optional<Task> getTaskById(Long id);
 
-    boolean update(Task task, int id);
+    Task updateTask(Task task, Long id);
 
-    boolean delete(int id);
+    Task setExecutor(Long executorId, Long id);
+
+    int deleteTask(Long id);
+
 }
