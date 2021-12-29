@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface TaskService {
 
-    Task addTask(Task task);
+    Task addTask(Task task, Long id);
 
     List<Task> readAll();
 

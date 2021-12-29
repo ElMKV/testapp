@@ -14,8 +14,8 @@ public class TaskServiceImpl implements TaskService {
     TaskRepository repository;
 
     @Override
-    public Task addTask(Task task) {
-        return repository.add(task);
+    public Task addTask(Task task, Long id) {
+        return repository.add(task, id);
     }
 
     @Override

@@ -20,9 +20,9 @@ public class TaskController {
     TaskService taskService;
 
 
-    @PostMapping(value = "/task")
-    public ResponseEntity<Task> create(@RequestBody Task task) {
-        Task result = taskService.addTask(task);
+    @PostMapping(value = "/task/{id}")
+    public ResponseEntity<Task> create(@PathVariable(name = "id") Long id, @RequestBody Task task) {
+        Task result = taskService.addTask(task, id);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 

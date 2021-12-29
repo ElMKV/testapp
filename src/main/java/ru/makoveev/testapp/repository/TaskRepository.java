@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface TaskRepository {
 
-    Task add(Task task);
+    Task add(Task task, Long id);
 
     List<Task> readAll();
 
