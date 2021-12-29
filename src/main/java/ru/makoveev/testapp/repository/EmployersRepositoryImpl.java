@@ -20,25 +20,6 @@ public class EmployersRepositoryImpl implements EmployersRepository{
     @Autowired
     DSLContext dslContext;
 
-    public Employer add(Employer employer) {
-        return convertDatabaseRecordToEmployer(
-                dslContext.insertInto(Tables.EMPLOYERS,
-                        Tables.EMPLOYERS.COMPANYNAME,
-                        Tables.EMPLOYERS.FIO,
-                        Tables.EMPLOYERS.POSITION,
-                        Tables.EMPLOYERS.ID)
-                .values(employer.getCompanyName(),employer.getFio(),employer.getPosition(), employer.getId())
-                .returning().fetchOne());
-    }
-
-    public List<Employer> readAll() {
-        List<EmployersRecord> records = dslContext
-                .selectFrom(Tables.EMPLOYERS)
-                .fetchInto(EmployersRecord.class);
-        return records.stream()
-                .map(this::convertDatabaseRecordToEmployer).collect(Collectors.toList());
-    }
-
     private Employer convertDatabaseRecordToEmployer(EmployersRecord record) {
 
         if(record == null)
@@ -60,6 +41,23 @@ public class EmployersRepositoryImpl implements EmployersRepository{
         return result;
     }
 
+    public Employer add(Employer employer) {
+        return convertDatabaseRecordToEmployer(
+                dslContext.insertInto(Tables.EMPLOYERS,
+                        Tables.EMPLOYERS.COMPANYNAME,
+                        Tables.EMPLOYERS.FIO,
+                        Tables.EMPLOYERS.POSITION)
+                .values(employer.getCompanyName(),employer.getFio(),employer.getPosition())
+                .returning().fetchOne());
+    }
+
+    public List<Employer> readAll() {
+        List<EmployersRecord> records = dslContext
+                .selectFrom(Tables.EMPLOYERS)
+                .fetchInto(EmployersRecord.class);
+        return records.stream()
+                .map(this::convertDatabaseRecordToEmployer).collect(Collectors.toList());
+    }
 
     @Override
     public Optional<Employer> getById(Long id) {

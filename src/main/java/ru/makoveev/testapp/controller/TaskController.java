@@ -10,62 +10,51 @@ import ru.makoveev.testapp.service.EmployerService;
 import ru.makoveev.testapp.service.TaskService;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
 public class TaskController {
-    private final TaskService taskService;
 
     @Autowired
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
+    TaskService taskService;
+
+
+    @PostMapping(value = "/task/{id}")
+    public ResponseEntity<Task> create(@PathVariable(name = "id") Long id, @RequestBody Task task) {
+        Task result = taskService.addTask(task, id);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-
-    @PostMapping(value = "/tasks")
-    public ResponseEntity<?> create(@RequestBody Task task) {
-        taskService.create(task);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @GetMapping(value = "/task")
+    @ResponseBody
+    public List<Task> readAll(){
+        return this.taskService.readAll();
     }
 
-    @GetMapping(value = "/tasks")
-    public ResponseEntity<List<Task>> read() {
-        final List<Task> tasks = taskService.readAll();
+    @GetMapping(value = "/task/{id}")
+    public ResponseEntity<Task> getById(@PathVariable(name = "id") Long id) {
+        final Optional<Task> taskOptional = taskService.getTaskById(id);
 
-        return tasks != null &&  !tasks.isEmpty()
-                ? new ResponseEntity<>(tasks, HttpStatus.OK)
+        return taskOptional.isPresent()
+                ? new ResponseEntity<>(taskOptional.get(), HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/tasks/{id}")
-    public ResponseEntity<Task> read(@PathVariable(name = "id") int id) {
-        final Task task = taskService.read(id);
 
-        return task != null
-                ? new ResponseEntity<>(task, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping(value = "/task/{id}/executor/{executorId}")
+    public ResponseEntity<Task> update(@PathVariable(name = "id") Long id, @PathVariable(name = "executorId") Long executorId) {
+        Task updated = taskService.setExecutor(executorId, id);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/tasks/{id}")
-    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody Task task) {
-        final boolean updated = taskService.update(task, id);
-
-        return updated
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    @DeleteMapping(value = "/task/{id}")
+    public ResponseEntity<Integer> delete(@PathVariable(name = "id") Long id) {
+        return new ResponseEntity<>(Integer.valueOf(taskService.deleteTask(id)), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/tasks/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
-        final boolean deleted = taskService.delete(id);
-
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
 
 }
-
 
 
 
