@@ -47,7 +47,6 @@ public class TaskRepositoryImpl implements TaskRepository{
 
     public Task add(Task task, Long id) {
         return convertDatabaseRecordToTask (
-
                 dslContext.insertInto(Tables.TASKS,
                                 Tables.TASKS.EXECUTOR,
                                 Tables.TASKS.DESCRIPTION,
