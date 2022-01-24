@@ -24,6 +24,7 @@ public class EmployersRepositoryImpl implements EmployersRepository{
 
         if(record == null)
             return null;
+        System.out.println(record.getBoss());
 
         Employer result = Employer.builder()
                 .id(record.getId())

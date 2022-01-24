@@ -11,6 +11,5 @@ public class Employer {
     private String position;
     private String fio;
     private String companyName;
-
 }
 

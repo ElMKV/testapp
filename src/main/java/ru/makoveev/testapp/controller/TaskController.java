@@ -21,18 +21,21 @@ public class TaskController {
 
 
     @PostMapping(value = "/task/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Task> create(@PathVariable(name = "id") Long id, @RequestBody Task task) {
         Task result = taskService.addTask(task, id);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/task")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
     public List<Task> readAll(){
         return this.taskService.readAll();
     }
 
     @GetMapping(value = "/task/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Task> getById(@PathVariable(name = "id") Long id) {
         final Optional<Task> taskOptional = taskService.getTaskById(id);
 
@@ -43,17 +46,17 @@ public class TaskController {
 
 
     @PutMapping(value = "/task/{id}/executor/{executorId}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Task> update(@PathVariable(name = "id") Long id, @PathVariable(name = "executorId") Long executorId) {
         Task updated = taskService.setExecutor(executorId, id);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/task/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Integer> delete(@PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(Integer.valueOf(taskService.deleteTask(id)), HttpStatus.OK);
     }
-
-
 }
 
 
