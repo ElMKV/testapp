@@ -2,6 +2,7 @@
 package ru.makoveev.testapp.repository;
 
 import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,6 @@ public class EmployersRepositoryImpl implements EmployersRepository{
 
         if(record == null)
             return null;
-        System.out.println(record.getBoss());
 
         Employer result = Employer.builder()
                 .id(record.getId())
@@ -32,6 +32,9 @@ public class EmployersRepositoryImpl implements EmployersRepository{
                 .fio(record.getFio())
                 .position(record.getPosition())
                 .build();
+
+
+
 
         if(record.getBoss() != null) {
             Optional<Employer> boss = getById(record.getBoss());

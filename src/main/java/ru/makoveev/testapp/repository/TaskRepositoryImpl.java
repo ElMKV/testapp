@@ -1,17 +1,26 @@
 package ru.makoveev.testapp.repository;
 
 import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Record2;
+import org.jooq.Result;
+import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import ru.makoveev.testapp.model.Employer;
 import ru.makoveev.testapp.model.Tables;
 import ru.makoveev.testapp.model.Task;
+import ru.makoveev.testapp.model.tables.Employers;
+import ru.makoveev.testapp.model.tables.Tasks;
 import ru.makoveev.testapp.model.tables.records.TasksRecord;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.jooq.impl.DSL.count;
 
 @Transactional
 @Repository
@@ -63,6 +72,7 @@ public class TaskRepositoryImpl implements TaskRepository{
         List<TasksRecord> records = dslContext
                 .selectFrom(Tables.TASKS)
                 .fetchInto(TasksRecord.class);
+
         return records.stream()
                 .map(this::convertDatabaseRecordToTask).collect(Collectors.toList());
     }
@@ -98,5 +108,15 @@ public class TaskRepositoryImpl implements TaskRepository{
         return dslContext.delete(Tables.TASKS)
                 .where(Tables.TASKS.ID.eq(id))
                 .execute();
+    }
+
+    public int countTasks(Long executorId) {
+        Record count = dslContext.select(count())
+                .from(Tables.TASKS)
+                .where(Tables.TASKS.EXECUTOR.eq(executorId))
+                .fetchOne();
+        if (count != null) {
+            return count.get(0, int.class);
+        } else return 0;
     }
 }
