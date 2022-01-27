@@ -21,4 +21,5 @@ public interface TaskRepository {
 
     int delete(Long id);
 
+    int countTasks(Long executorId);
 }

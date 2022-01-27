@@ -7,6 +7,7 @@ import ru.makoveev.testapp.model.Employer;
 import ru.makoveev.testapp.model.Tables;
 import ru.makoveev.testapp.model.tables.records.EmployersRecord;
 import ru.makoveev.testapp.repository.EmployersRepository;
+import ru.makoveev.testapp.repository.TaskRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,9 @@ public class EmployerServiceImpl implements EmployerService {
     @Autowired
     EmployersRepository repository;
 
+    @Autowired
+    TaskRepository taskRepository;
+
     @Override
     public Employer addEmployer(Employer employer) {
         return repository.add(employer);
@@ -29,6 +33,7 @@ public class EmployerServiceImpl implements EmployerService {
     @Override
     public List<Employer> readAll() {
         return repository.readAll();
+
     }
 
     @Override
@@ -49,5 +54,9 @@ public class EmployerServiceImpl implements EmployerService {
     @Override
     public int deleteEmployer(Long id) {
         return repository.delete(id);
+    }
+
+    public int getTasksCount(Long id) {
+        return taskRepository.countTasks(id);
     }
 }

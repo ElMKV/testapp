@@ -19,5 +19,5 @@ public interface EmployerService {
 
     int deleteEmployer(Long id);
 
-
+    int getTasksCount(Long id);
 }
